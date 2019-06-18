@@ -154,14 +154,16 @@ export default {
           title: "假期"
         }
       ],
-      imgtype: ["jpg", "jpeg", "gif", "svg", "png"],
-      size: 3, //mb
       starttime: "",
       endtime: "",
       dataday: "",
       imglist: [],
       describe: "",
-      usertype: -1
+      usertype: -1,
+       guide:{
+        type:['png','gif','jpg','svg','jpeg'],
+        size:3
+      },
     };
   },
   computed: {
@@ -190,23 +192,39 @@ export default {
       }
     },
     changefile(e) {
-      let userfile = e.target.files[0];
+    //   let userfile = e.target.files[0];
 
-    //   console.log(e.target.files[0])
-      const { size, type } = userfile;
-      const filereg = /.*(jpg|png|gif|jpeg|svg)$/;
-      let err = "";
-      if (!filereg.exec(type)) {
-        err = "上传格式" + this.imgtype.join(",") + "的图片";
-        // alert(err);
-        this.$alert(err)
-        return;
-      }
-      if (this.size * 1024 * 1024 < size) {
-        err = "请输入" + this.size + "MB以内的图片";
-        alert(err);
-        return;
-      }
+
+    // //   console.log(e.target.files[0])
+    //   const { name, type } = userfile;
+    //   const filereg = /.*(jpg|png|gif|jpeg|svg)$/;
+    //   let err = "";
+    //   if (!filereg.exec(type)) {
+    //     err = "上传格式" + this.imgtype.join(",") + "的图片";
+    //     // alert(err);
+    //     this.$alert(err)
+    //     return;
+    //   }
+    //   if (this.size * 1024 * 1024 < size) {
+    //     err = "请输入" + this.size + "MB以内的图片";
+    //     alert(err);
+    //     return;
+    //   }
+
+    let userfile=e.target.files[0];
+     let {name,size} = userfile;
+     let filetype=name.match(/\.(\w+)$/i)[1];
+     let error='';
+     if(!this.guide.type.includes(filetype)){
+       error=`请上传${this.guide.type.join()}类型的文件`
+     }
+      if(this.guide.size*1024*1024<size){
+       error=`请上传小于${this.guide.size}MB大小的文件`
+     }
+     if(error){
+       this.$alert(error)
+       return;
+     }
 
       console.log( new FormData())
       const fromdata = new FormData();

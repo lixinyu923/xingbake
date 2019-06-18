@@ -7,7 +7,7 @@
 <script>
 export default {
   props:{
-    text:String
+   
 
   },
   components:{
@@ -15,24 +15,31 @@ export default {
   },
   data(){
     return {
-      open:true,
-      timer:null
+      open:false,
+      timer:null,
+      text:''
     }
   },
   computed:{
 
   },
   methods:{
-
+     alertOpen(text){
+      this.text=text;
+      this.open=true;
+      this.timer=setTimeout(()=>{
+          this.open=false
+      },2000)
+    }
   },
   created(){
 
   },
   mounted(){
-    console.log('dislog在页面挂载')
-    this.timer=setTimeout(()=>{
-      this.open=false
-    },2000)
+    // console.log('dislog在页面挂载')
+    // this.timer=setTimeout(()=>{
+    //   this.open=false
+    // },2000)
   },
   destroyed(){
     clearTimeout(this.timer)
